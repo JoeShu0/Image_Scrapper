@@ -85,6 +85,9 @@ def downloadImage(image_thumb_soup):
 
 
 def DownLoadByTags():
+    global tagstring
+    tagstring = ""
+
     input_tags = input("请输入gelbooru的tag, 用空格隔开: ")
     search_post_string = GetSearchPostString(input_tags)
     #print("Search String is: " + search_post_string)
