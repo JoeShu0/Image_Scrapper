@@ -7,6 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 BaseLink = "https://gelbooru.com/index.php"
 tagPreString = "?page=post&s=list&tags="
 pagePreString = "&pid="
+tagstring = ""
 
 downloadInterval = 10 #Avoid being banned
 
@@ -15,10 +16,12 @@ def GetPageSoup(page_link, base_link):
     return BeautifulSoup(page.content, features="html.parser")
 
 def GetSearchPostString(tags):
+    global tagstring
     tags_list = tags.split(" ") #tags 
     searchPost_string = tagPreString
     for tag in tags_list:
         searchPost_string = searchPost_string + tag + "+"
+        tagstring = tagstring + "-" + tag 
     return searchPost_string
 
 def GetAllPageString(searchPageSoup):
@@ -62,7 +65,8 @@ def downloadImage(image_thumb_soup):
     image_page_soup = GetPageSoup(image_page_link,"")
     image_link = image_page_soup.body.find(rel="noopener").get("href")
     #make sure path exist
-    outputfolder = "output"
+    global tagstring
+    outputfolder = "output"+ tagstring
     os.makedirs(outputfolder, exist_ok=True)
     #download image
     postfix = image_link.split(".")[-1]
