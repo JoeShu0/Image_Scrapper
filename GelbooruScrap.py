@@ -26,8 +26,11 @@ def GetSearchPostString(tags):
 
 def GetAllPageString(searchPageSoup):
     page_ind_list = searchPageSoup.body.find(id="paginator").find_all("a")
-    if not page_ind_list:
+    page_ind_current = searchPageSoup.body.find(id="paginator").find("b")
+    if not page_ind_list and not page_ind_current:
         return []
+    elif page_ind_current and not page_ind_list:
+        return [1]
 
     max_ind_num = 0
     max_ind_link = ""
@@ -89,8 +92,10 @@ def DownLoadByTags():
     page_strings = GetAllPageString(search_result_page_soup)
 
     if len(page_strings) == 0:
-        print("此tag的图片过少，请检查tag！")
+        print("此tag(或tag组合)没有有效图片，请检查tag！")
         return 
+    elif len(page_strings) == 1:
+        page_strings = [BaseLink + search_post_string]
 
     print("一共有 " + str(len(page_strings)) + " 页, 全部下载预计将会花费 " + str(len(page_strings)*42 * 5/60) + " 分钟")
     comfirm_downlod = input("你确定要下载所有图片?(y/n):")
