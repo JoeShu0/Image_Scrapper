@@ -21,7 +21,7 @@ def GetSearchPostString(tags):
     searchPost_string = tagPreString
     for tag in tags_list:
         searchPost_string = searchPost_string + tag + "+"
-        tagstring = tagstring + "-" + tag 
+        tagstring = tagstring + tag + ","
     return searchPost_string
 
 def GetAllPageString(searchPageSoup):
@@ -66,7 +66,7 @@ def downloadImage(image_thumb_soup):
     image_link = image_page_soup.body.find(rel="noopener").get("href")
     #make sure path exist
     global tagstring
-    outputfolder = "output"+ tagstring
+    outputfolder = "output\\"+ tagstring
     os.makedirs(outputfolder, exist_ok=True)
     #download image
     postfix = image_link.split(".")[-1]
@@ -118,7 +118,7 @@ def DownLoadByTags():
         pool.shutdown()
     
     else:
-        limited_downlod_num = int(input("你想要下载多少张图片?(int):"))
+        limited_downlod_num = int(input("你想要下载前多少张图片?(int):"))
 
         if limited_downlod_num == 0:
             return
