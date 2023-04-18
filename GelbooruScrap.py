@@ -148,8 +148,6 @@ def DownLoadByTags():
 
     print("下载完毕")
 
-
-
 if __name__ == "__main__":
     print("这是一个用来爬取gelbooru图片和tag的脚本。频繁使用可能导致IP被BAN，请谨慎使用：）")
     while(True):
