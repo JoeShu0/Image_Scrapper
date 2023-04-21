@@ -242,7 +242,10 @@ def downLoadImageInPages(imgPageLinks, driver):
                 imglinks.append(page.get_attribute("src"))
             
             print("图集有" + str(len(imglinks))+ "页，开始下载...")
-            downloadMangaPages(imglinks, imgname, imgPageLinks[i])
+            if len(imglinks) == 1:
+                downloadImage(imglinks[0], imgname, imgPageLinks[i])
+            else:
+                downloadMangaPages(imglinks, imgname, imgPageLinks[i])
 
         elif(gif_pause):
             print("此项为动图,暂不支持下载") 
