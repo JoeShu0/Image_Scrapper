@@ -8,6 +8,7 @@ BaseLink = "https://gelbooru.com/index.php"
 tagPreString = "?page=post&s=list&tags="
 pagePreString = "&pid="
 tagstring = ""
+mainFolder = "Gelbooru\\"
 
 downloadInterval = 10 #Avoid being banned
 
@@ -69,7 +70,7 @@ def downloadImage(image_thumb_soup):
     image_link = image_page_soup.body.find(rel="noopener").get("href")
     #make sure path exist
     global tagstring
-    outputfolder = "output\\"+ tagstring
+    outputfolder = "output\\"+ mainFolder + tagstring
     os.makedirs(outputfolder, exist_ok=True)
     #download image
     postfix = image_link.split(".")[-1]
