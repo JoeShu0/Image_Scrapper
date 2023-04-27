@@ -141,8 +141,11 @@ def downloadMangaPages(imglinks, imgname, imagepagelink):
     for imglink in imglinks:
         print("下载链接: " + imglink)
         #文件保存路径
+        if "master" in imglink:
+            pageNum = " "+imglink.split("_")[-2]
+        else:
+            pageNum = " "+imglink.split("_")[-1].split(".")[0]
         postfix = "." + imglink.split(".")[-1]
-        pageNum = " "+imglink.split("_")[-2]
         imgID = " " + imglink.split("/")[-1].split("_")[0]
         os.makedirs("output\\"+ Mainfolder + subfolder , exist_ok=True)
         savepath = "output\\"+ Mainfolder + subfolder + imgname + imgID + pageNum + postfix
@@ -208,8 +211,8 @@ def downLoadImageInPages(imgPageLinks, driver):
                 manga_pages = driver.find_elements(By.XPATH, "//*[@target ='_blank'][@rel='noopener']/img")
             else:
                 manga_pages = driver.find_elements(By.XPATH, "//div[@role='presentation']/div/img")
-            imgname = manga_pages[0].accessible_name
-            imgname = "".join( x for x in imgname if (x.isalnum() or x in "._- "))
+            imgname = manga_pages[0].accessible_name.replace("\\", "").replace("/", "")
+            imgname = "".join( x for x in imgname if (x.isalnum() or x in "._- ")).replace("|", "")
             imglinks = []
             for page in manga_pages:
                 imglinks.append(page.get_attribute("src"))
@@ -235,8 +238,8 @@ def downLoadImageInPages(imgPageLinks, driver):
                 manga_pages = driver.find_elements(By.XPATH, "//*[@target ='_blank'][@rel='noopener']/img")
             else:
                 manga_pages = driver.find_elements(By.XPATH, "//div[@class = 'gtm-expand-full-size-illust']/img")
-            imgname = manga_pages[0].accessible_name
-            imgname = "".join( x for x in imgname if (x.isalnum() or x in "._- "))
+            imgname = manga_pages[0].accessible_name.replace("\\", "").replace("/", "")
+            imgname = "".join( x for x in imgname if (x.isalnum() or x in "._- ")).replace("|", "")
             imglinks = []
             for page in manga_pages:
                 imglinks.append(page.get_attribute("src"))
@@ -263,8 +266,8 @@ def downLoadImageInPages(imgPageLinks, driver):
                 else:
                     O_image = driver.find_element(By.XPATH, "//div[@role='presentation']/div/img")
                 imglink = O_image.get_attribute("src")
-                imgname = O_image.accessible_name
-                imgname = "".join( x for x in imgname if (x.isalnum() or x in "._- "))
+                imgname = O_image.accessible_name.replace("\\", "").replace("/", "")
+                imgname = "".join( x for x in imgname if (x.isalnum() or x in "._- ")).replace("|", "")
                 downloadImage(imglink, imgname, imgPageLinks[i])
             except:
                 print("未知错误，跳过此项")
@@ -308,7 +311,7 @@ def downloadRank100(driver):
     subfolder = "Rankings\\"
     downLoadImageInPages(rankpagelinks, driver)
 
-def downloadUserPage(driver, userID):
+def downloadUserPage(driver, userID, isBatch = False):
     driver.get(usersillustrationslink.format(userID))
     time.sleep(1)
     #向下滚动
@@ -351,13 +354,21 @@ def downloadUserPage(driver, userID):
             continue
         #找不到比当前页码大1的页码，说明已经到最后一页
         break
-    confirmDownload = input("共有" + str(len(imgPagelinks)) + "张作品， 确认下载？(y/n)")
-    if confirmDownload != "y":
-        return
+    if not isBatch:
+        confirmDownload = input("共有" + str(len(imgPagelinks)) + "张作品， 确认下载？(y/n)")
+        if confirmDownload != "y":
+            return
     print("开始下载用户 " + userName + " 的作品")
     global subfolder
-    subfolder = "{}_{}\\".format(userName,userID)
+    userName = "".join( x for x in userName if (x.isalnum() or x in "._- ")).replace("|", "").replace("\\", "").replace("/", "")
+    subfolder = "{}_{}\\".format(userID, userName)
     downLoadImageInPages(imgPagelinks, driver)
+
+def downloadMultiUserPages(driver, userIDstr):
+    userIDs = userIDstr.split(" ")
+    for userID in userIDs:
+        downloadUserPage(driver, userID, True)
+    
 
 
 if __name__ == "__main__":
@@ -366,7 +377,7 @@ if __name__ == "__main__":
     driver = LoginPixiv()
     while True:
         print("----------------------------------------------")
-        choice = input("选择下载内容：\n     1,下载今天排行榜前100图片\n     2,下载指定画师的图片\n   选项： ")
+        choice = input("选择下载内容：\n     1,下载今天排行榜前100图片\n     2,下载指定画师的图片\n     3,批量下载多个画师的图片\n   选项： ")
         if choice == "1":
             print("开始下载今天排行榜前100图片")
             downloadRank100(driver)
@@ -374,7 +385,11 @@ if __name__ == "__main__":
             userID = input("请输入画师ID，通常在网页链接中，如https://www.pixiv.net/users/12345678，12345678即为画师ID\n   画师ID： ")
             print("加载指定画师页面")
             downloadUserPage(driver, userID)
+        elif choice == "3":
+            userIDstr = input("请输入多个画师ID，使用空格分隔开\n   画师ID： ")
+            print("加载多个画师页面")
+            downloadMultiUserPages(driver, userIDstr)
         else:
-            print("输入错误，退出")
+            print("输入错误")
             time.sleep(5)
-            exit()
+            continue
