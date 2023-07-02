@@ -242,8 +242,8 @@ class PinterestWebSpider:
 if __name__ == '__main__':
     config = {
         "url": "https://www.pinterest.com/",
-        "username": "yanxiangly@gmail.com",
-        "password": "xy545733",
+        "username": "EMAIL",
+        "password": "PW",
         "max_pages": 10,
         "retry_times": 3,
         "page_scroll_length": 1000,
