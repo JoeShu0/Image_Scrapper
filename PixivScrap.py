@@ -19,6 +19,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
+from Includes import SeleniumUtils
+from Includes import GeneralFuncs
+
 
 baselink = "https://www.pixiv.net/"
 rankinglink = "https://www.pixiv.net/ranking.php"
@@ -31,23 +34,11 @@ timeout = 2
 
 isLogin = False
 
+#******************End Functions*******************
+
 def LoginPixiv():
     
-    #driver = webdriver.Chrome()
-    coptions = webdriver.ChromeOptions()
-    coptions.add_argument('--ignore-certificate-errors')
-    coptions.add_argument('--ignore-ssl-errors')
-    # 忽略 Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed. 错误
-    #coptions.add_experimental_option('excludeSwitches', ['enable-automation'])
-    # 忽略 DevTools listening on ws://127.0.0.1... 提示
-    coptions.add_experimental_option('excludeSwitches', ['enable-logging'])
-    coptions.page_load_strategy = 'eager'
-    """
-    debugMode =  input("Debug模式？(y/n),默认为无头模式: ")
-    if debugMode != "y":
-        coptions.add_argument("--headless")
-    """
-    driver = webdriver.Chrome(options=coptions)
+    driver = SeleniumUtils.GetChromeDriver()
 
     print("正在载入Pixiv...")
     driver.get(baselink)
@@ -97,20 +88,6 @@ def LoginPixiv():
 
     return driver
 
-def downloadImageData(session, imglink, headers):
-    retries = 1
-    success = False
-    while not success and retries < 5:
-        try:
-            response = session.get(imglink, headers=headers)
-            success = True
-        except Exception as e:
-            wait = retries * 10
-            print ('Error! Waiting {} secs and re-trying...'.format(wait))
-            time.sleep(wait)
-            retries += 1
-    return response
-
 def downloadImage(imglink, imgname, imagepagelink):
     print("开始下载：" + imgname)
     print("下载链接: " + imglink)
@@ -125,7 +102,7 @@ def downloadImage(imglink, imgname, imagepagelink):
     headers = {"Referer": imagepagelink}
     session = requests.Session()
     #response = session.get(imglink, headers=headers)
-    response = downloadImageData(session, imglink, headers)
+    response = GeneralFuncs.downloadImageData(session, imglink, headers)
     image_data = response.content
     #文件保存路径
     os.makedirs("output\\"+ Mainfolder + subfolder , exist_ok=True)
@@ -155,7 +132,7 @@ def downloadMangaPages(imglinks, imgname, imagepagelink):
             continue
         #下载图片
         #response = session.get(imglink, headers=headers)    
-        response = downloadImageData(session, imglink, headers)
+        response = GeneralFuncs.downloadImageData(session, imglink, headers)
         image_data = response.content
         with open(savepath, 'wb') as f:
             f.write(image_data)
