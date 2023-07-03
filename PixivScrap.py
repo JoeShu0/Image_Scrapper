@@ -350,6 +350,7 @@ def downloadMultiUserPages(driver, userIDstr):
 
 if __name__ == "__main__":
     print("这是一个用来爬取Pixiv图片的脚本。需要提供Pixiv账号和密码。\n频繁使用可能导致IP被BAN，请谨慎使用：")
+    print("使用前需要保证你的能够正常的登陆上此网站，且没有账户安全提示阻止登录")
     print("----------------------------------------------")
     driver = LoginPixiv()
     while True:

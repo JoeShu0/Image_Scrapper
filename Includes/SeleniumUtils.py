@@ -28,3 +28,7 @@ def GetChromeDriver():
     """
     driver = webdriver.Chrome(options=coptions)
     return driver
+
+def WaitForElement(driver, method, pattern, timeout = 5):
+    elementlogin_present = EC.presence_of_element_located((method, pattern))
+    WebDriverWait(driver, timeout).until(elementlogin_present)
