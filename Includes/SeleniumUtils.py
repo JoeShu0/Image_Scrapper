@@ -26,7 +26,20 @@ def GetChromeDriver():
     if debugMode != "y":
         coptions.add_argument("--headless")
     """
+
+    #Avoid Detection
+    # Adding argument to disable the AutomationControlled flag 
+    coptions.add_argument("--disable-blink-features=AutomationControlled")
+    # Exclude the collection of enable-automation switches 
+    coptions.add_experimental_option("excludeSwitches", ["enable-automation"])
+    # Turn-off userAutomationExtension 
+    coptions.add_experimental_option("useAutomationExtension", False)
+
     driver = webdriver.Chrome(options=coptions)
+
+    # Changing the property of the navigator value for webdriver to undefined 
+    driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})") 
+
     return driver
 
 def WaitForElement(driver, method, pattern, timeout = 5):
