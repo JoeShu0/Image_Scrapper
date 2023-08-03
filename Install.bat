@@ -1,10 +1,14 @@
 @ECHO off
 ECHO Installing Pipenv, If fails, please install python 3.10
-ECHO ÕıÔÚ°²×°Pipenv£¬ ÈôÊ§°Ü£¬ÇëÊÖ¶¯°²×°python3.10
+ECHO æ­£åœ¨å®‰è£…Pipenvï¼Œ è‹¥å¤±è´¥ï¼Œè¯·æ‰‹åŠ¨å®‰è£…python3.10
 pip install pipenv
 ECHO Install ENV
-ECHO ÕıÔÚ°²×°»·¾³
+ECHO æ­£åœ¨å®‰è£…ç¯å¢ƒ
 pipenv install
 echo Install end
-ECHO °²×°½áÊø£¬ÈçÎª¼û±¨´íÔò°²×°³É¹¦
+<<<<<<< Updated upstream
+ECHO å®‰è£…ç»“æŸï¼Œå¦‚ä¸ºè§æŠ¥é”™åˆ™å®‰è£…æˆåŠŸ
+=======
+ECHO å®‰è£…ç»“æŸï¼Œå¦‚ä¸ºæœª æŠ¥é”™ åˆ™å®‰è£…æˆåŠŸ
+>>>>>>> Stashed changes
 pause
