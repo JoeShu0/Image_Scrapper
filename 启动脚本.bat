@@ -1,24 +1,24 @@
 @ECHO off
-ECHO ×¼±¸Æô¶¯½Å±¾£¬ÈçÓĞÒÉÎÊ£¬ÇëÁªÏµhttps://github.com/JoeShu0/Image_Scrapper/issues£º
-ECHO  1£¬Pixiv
-ECHO  2£¬GelBooru£¨NSFW£©
-ECHO  3£¬Pinterest
-ECHO  4£¬Artstation
-set /p Site=ÇëÑ¡ÔñĞèÒªÅÀÈ¡µÄÍøÕ¾£º
+ECHO å‡†å¤‡å¯åŠ¨è„šæœ¬ï¼Œå¦‚æœ‰ç–‘é—®ï¼Œè¯·è”ç³»https://github.com/JoeShu0/Image_Scrapper/issuesï¼š
+ECHO  1ï¼ŒPixiv
+ECHO  2ï¼ŒGelBooruï¼ˆNSFWï¼‰
+ECHO  3ï¼ŒPinterest
+ECHO  4ï¼ŒArtstation
+set /p Site=è¯·é€‰æ‹©éœ€è¦çˆ¬å–çš„ç½‘ç«™ï¼š
 
 IF %Site% == 1 (
-    ECHO ÕıÔÚÆô¶¯PixivÅÀ³æ½Å±¾
+    ECHO æ­£åœ¨å¯åŠ¨Pixivçˆ¬è™«è„šæœ¬
     pipenv run python PixivScrap.py
 ) ELSE IF %Site% == 2 (
-    ECHO ÕıÔÚÆô¶¯GelbooruÅÀ³æ½Å±¾
+    ECHO æ­£åœ¨å¯åŠ¨Gelbooruçˆ¬è™«è„šæœ¬
     pipenv run python GelbooruScrap.py
 ) ELSE IF %Site% == 3 (
-    ECHO ÕıÔÚÆô¶¯PinterestÅÀ³æ½Å±¾
+    ECHO æ­£åœ¨å¯åŠ¨Pinterestçˆ¬è™«è„šæœ¬
     pipenv run python PinterestScrap.py
 ) ELSE IF %Site% == 4 (
-    ECHO ÕıÔÚÆô¶¯ArtstationÅÀ³æ½Å±¾
+    ECHO æ­£åœ¨å¯åŠ¨Artstationçˆ¬è™«è„šæœ¬
     pipenv run python ArtstationScrap.py
 ) ELSE (
-    ECHO ÎŞĞ§Ñ¡Ôñ£¬½Å±¾¼´½«ÍË³ö¡£
+    ECHO æ— æ•ˆé€‰æ‹©ï¼Œè„šæœ¬å³å°†é€€å‡ºã€‚
     pause
 )
