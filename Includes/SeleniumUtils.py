@@ -16,6 +16,7 @@ def GetChromeDriver():
     coptions = webdriver.ChromeOptions()
     coptions.add_argument('--ignore-certificate-errors')
     coptions.add_argument('--ignore-ssl-errors')
+    coptions.add_argument('--ignore-certificate-errors-spki-list')
     # 忽略 Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed. 错误
     #coptions.add_experimental_option('excludeSwitches', ['enable-automation'])
     # 忽略 DevTools listening on ws://127.0.0.1... 提示
