@@ -8,7 +8,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-
+from webdriver_manager.chrome import ChromeDriverManager
 
 def GetChromeDriver():
     print("正在创建网页实例...")
@@ -36,7 +36,10 @@ def GetChromeDriver():
     # Turn-off userAutomationExtension 
     coptions.add_experimental_option("useAutomationExtension", False)
 
-    driver = webdriver.Chrome(options=coptions)
+    try:
+        driver = webdriver.Chrome(options=coptions)
+    except:
+        driver = webdriver.Chrome(ChromeDriverManager().install(), options=coptions)
 
     # Changing the property of the navigator value for webdriver to undefined 
     driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})") 
