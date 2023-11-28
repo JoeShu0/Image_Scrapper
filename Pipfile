@@ -8,6 +8,7 @@ requests = "*"
 beautifulsoup4 = "*"
 notebook = "*"
 selenium = "*"
+webdriver-manager = "*"
 
 [dev-packages]
 
